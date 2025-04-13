@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hbb/common/widgets/overlay.dart';
 import 'package:flutter_hbb/desktop/pages/desktop_tab_page.dart';
+import 'package:flutter_hbb/common/widgets/address_book.dart';
 import 'package:flutter_hbb/desktop/pages/install_page.dart';
 import 'package:flutter_hbb/desktop/pages/server_page.dart';
 import 'package:flutter_hbb/desktop/screen/desktop_file_transfer_screen.dart';
@@ -488,7 +489,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               ? const DesktopTabPage()
               : isWeb
                   ? WebHomePage()
-                  : HomePage(),
+                  : AddressBook(),
+                  // : HomePage(),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
