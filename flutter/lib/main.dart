@@ -485,12 +485,17 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           theme: MyTheme.lightTheme,
           darkTheme: MyTheme.darkTheme,
           themeMode: MyTheme.currentThemeMode(),
+          // home: isDesktop
+          //     ? const DesktopTabPage()
+          //     : isWeb
+          //         ? WebHomePage()
+          //         : AddressBook(),
+          //         // : HomePage(),
           home: isDesktop
-              ? const DesktopTabPage()
+              ? const AddressBook()
               : isWeb
                   ? WebHomePage()
-                  : AddressBook(),
-                  // : HomePage(),
+                  : HomePage(),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
