@@ -150,16 +150,24 @@ void runMainApp(bool startService) async {
     }
     // Restore the location of the main window before window hide or show.
     await restoreWindowPosition(WindowType.Main);
-    // Check the startup argument, if we successfully handle the argument, we keep the main window hidden.
-    final handledByUniLinks = await initUniLinks();
-    debugPrint("handled by uni links: $handledByUniLinks");
-    if (handledByUniLinks || handleUriLink(cmdArgs: kBootArgs)) {
-      windowManager.hide();
-    } else {
-      windowManager.show();
-      windowManager.focus();
-      // Move registration of active main window here to prevent from async visible check.
+    // On Windows, always keep the window hidden
+    if (Platform.isWindows) {
+      await windowManager.hide();
+      await windowManager.setSkipTaskbar(true);
+      // Still register the window for background operations
       rustDeskWinManager.registerActiveWindow(kWindowMainId);
+    } else {
+      // For other platforms, maintain original logic
+      final handledByUniLinks = await initUniLinks();
+      debugPrint("handled by uni links: $handledByUniLinks");
+      if (handledByUniLinks || handleUriLink(cmdArgs: kBootArgs)) {
+        windowManager.hide();
+      } else {
+        windowManager.show();
+        windowManager.focus();
+        // Move registration of active main window here to prevent from async visible check.
+        rustDeskWinManager.registerActiveWindow(kWindowMainId);
+      }
     }
     windowManager.setOpacity(1);
     windowManager.setTitle(getWindowName());

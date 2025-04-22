@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_hbb/common.dart';
 import 'package:flutter_hbb/consts.dart';
@@ -20,6 +21,10 @@ class DesktopTabPage extends StatefulWidget {
 
   static void onAddSetting(
       {SettingsTabKey initialPage = SettingsTabKey.general}) {
+    // 在Windows平台下不允许打开设置窗口
+    if (Platform.isWindows) {
+      return;
+    }
     try {
       DesktopTabController tabController = Get.find<DesktopTabController>();
       tabController.add(TabInfo(

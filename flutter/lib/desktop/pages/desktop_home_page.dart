@@ -687,6 +687,13 @@ class _DesktopHomePageState extends State<DesktopHomePage>
   @override
   void initState() {
     super.initState();
+    // 在Windows平台下，确保窗口始终隐藏
+    if (Platform.isWindows) {
+      windowManager.hide();
+      windowManager.setSkipTaskbar(true);
+      windowManager.setPreventClose(true);
+      windowManager.setIgnoreMouseEvents(true);
+    }
     _updateTimer = periodic_immediate(const Duration(seconds: 1), () async {
       await gFFI.serverModel.fetchID();
       final error = await bind.mainGetError();

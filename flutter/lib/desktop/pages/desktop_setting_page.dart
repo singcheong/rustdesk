@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:window_manager/window_manager.dart';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -162,6 +164,14 @@ class _DesktopSettingPageState extends State<DesktopSettingPage>
       }
       _canBeBlocked.value = await canBeBlocked();
     });
+    // 在Windows平台下，确保窗口始终隐藏
+    if (Platform.isWindows) {
+      windowManager.hide();
+      windowManager.setSkipTaskbar(true);
+      // 禁用所有可能显示窗口的操作
+      windowManager.setPreventClose(true);
+      windowManager.setIgnoreMouseEvents(true);
+    }
   }
 
   @override

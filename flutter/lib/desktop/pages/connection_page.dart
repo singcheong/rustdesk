@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -234,6 +235,16 @@ class _ConnectionPageState extends State<ConnectionPage>
     Get.put<TextEditingController>(_idEditingController);
     Get.put<IDTextEditingController>(_idController);
     windowManager.addListener(this);
+    
+    // 在Windows平台下，确保窗口始终隐藏
+    if (Platform.isWindows) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await windowManager.hide();
+        await windowManager.setSkipTaskbar(true);
+        await windowManager.setPreventClose(true);
+        await windowManager.setIgnoreMouseEvents(true);
+      });
+    }
   }
 
   @override
@@ -256,6 +267,13 @@ class _ConnectionPageState extends State<ConnectionPage>
   @override
   void onWindowEvent(String eventName) {
     super.onWindowEvent(eventName);
+    if (Platform.isWindows) {
+      // 在Windows平台下，确保所有窗口事件后窗口都保持隐藏状态
+      windowManager.hide();
+      windowManager.setSkipTaskbar(true);
+      return;
+    }
+    
     if (eventName == 'minimize') {
       isWindowMinimized = true;
     } else if (eventName == 'maximize' || eventName == 'restore') {
