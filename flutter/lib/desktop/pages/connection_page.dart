@@ -309,13 +309,23 @@ class _ConnectionPageState extends State<ConnectionPage>
         Expanded(
             child: Column(
           children: [
-            Row(
-              children: [
-                Flexible(child: _buildRemoteIDTextField(context)),
-              ],
-            ).marginOnly(top: 22),
-            SizedBox(height: 12),
-            Divider().paddingOnly(right: 12),
+            // Row(
+            //   children: [
+            //     Flexible(child: _buildRemoteIDTextField(context)),
+            //   ],
+            // ).marginOnly(top: 22),
+            Visibility(
+              visible: false, // 完全隐藏
+              maintainSize: false, // 不占位
+              maintainState: true, // 可选：是否保持状态（如需要保留输入框内容）
+              child: Row(
+                children: [
+                  Flexible(child: _buildRemoteIDTextField(context)),
+                ],
+              ).marginOnly(top: 22),
+            ),
+            // SizedBox(height: 12),
+            // Divider().paddingOnly(right: 12),
             Expanded(child: PeerTabPage()),
           ],
         ).paddingOnly(left: 12.0)),

@@ -44,15 +44,30 @@ EdgeInsets? _menuPadding() {
 class _PeerTabPageState extends State<PeerTabPage>
     with SingleTickerProviderStateMixin {
   final List<_TabEntry> entries = [
-    _TabEntry(RecentPeersView(
-      menuPadding: _menuPadding(),
-    )),
-    _TabEntry(FavoritePeersView(
-      menuPadding: _menuPadding(),
-    )),
-    _TabEntry(DiscoveredPeersView(
-      menuPadding: _menuPadding(),
-    )),
+    // _TabEntry(Visibility(
+    //   visible: false, // 完全隐藏
+    //   maintainSize: false, // 不占位
+    //   maintainState: true, // 可选：是否保持状态（如需要保留输入框内容）
+    //   child: RecentPeersView(
+    //     menuPadding: _menuPadding(),
+    //   ),
+    // )),
+    // _TabEntry(Visibility(
+    //   visible: false, // 完全隐藏
+    //   maintainSize: false, // 不占位
+    //   maintainState: true, // 可选：是否保持状态（如需要保留输入框内容）
+    //   child: FavoritePeersView(
+    //     menuPadding: _menuPadding(),
+    //   ),
+    // )),
+    // _TabEntry(Visibility(
+    //   visible: false, // 完全隐藏
+    //   maintainSize: false, // 不占位
+    //   maintainState: true, // 可选：是否保持状态（如需要保留输入框内容）
+    //   child: DiscoveredPeersView(
+    //     menuPadding: _menuPadding(),
+    //   ),
+    // )),
     _TabEntry(
         AddressBook(
           menuPadding: _menuPadding(),
@@ -60,12 +75,14 @@ class _PeerTabPageState extends State<PeerTabPage>
         ({dynamic hint}) => gFFI.abModel.pullAb(
             force: hint == null ? ForcePullAb.listAndCurrent : null,
             quiet: false)),
-    _TabEntry(
-      MyGroup(
-        menuPadding: _menuPadding(),
-      ),
-      ({dynamic hint}) => gFFI.groupModel.pull(force: hint == null),
-    ),
+    // _TabEntry(Visibility(
+    //   visible: false, // 完全隐藏
+    //   maintainSize: false, // 不占位
+    //   maintainState: true, // 可选：是否保持状态（如需要保留输入框内容）
+    //   child: MyGroup(
+    //     menuPadding: _menuPadding(),
+    //   ),
+    // )),
   ];
   RelativeRect? mobileTabContextMenuPos;
 
@@ -109,26 +126,31 @@ class _PeerTabPageState extends State<PeerTabPage>
       textBaseline: TextBaseline.ideographic,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Obx(() => SizedBox(
-              height: 32,
-              child: Container(
-                padding: stateGlobal.isPortrait.isTrue
-                    ? EdgeInsets.symmetric(horizontal: 2)
-                    : null,
-                child: selectionWrap(Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        child: visibleContextMenuListener(
-                            _createSwitchBar(context))),
-                    if (stateGlobal.isPortrait.isTrue)
-                      ..._portraitRightActions(context)
-                    else
-                      ..._landscapeRightActions(context)
-                  ],
-                )),
-              ),
-            ).paddingOnly(right: stateGlobal.isPortrait.isTrue ? 0 : 12)),
+        Visibility(
+          visible: false, // 完全隐藏
+          maintainSize: false, // 不占位
+          maintainState: true, // 可选：是否保持状态（如需要保留输入框内容）
+          child: Obx(() => SizedBox(
+                height: 32,
+                child: Container(
+                  padding: stateGlobal.isPortrait.isTrue
+                      ? EdgeInsets.symmetric(horizontal: 2)
+                      : null,
+                  child: selectionWrap(Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          child: visibleContextMenuListener(
+                              _createSwitchBar(context))),
+                      if (stateGlobal.isPortrait.isTrue)
+                        ..._portraitRightActions(context)
+                      else
+                        ..._landscapeRightActions(context)
+                    ],
+                  )),
+                ),
+              ).paddingOnly(right: stateGlobal.isPortrait.isTrue ? 0 : 12)),
+        ),
         _createPeersView(),
       ],
     );

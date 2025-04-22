@@ -96,8 +96,13 @@ class _DesktopTabPageState extends State<DesktopTabPage> {
             backgroundColor: Theme.of(context).colorScheme.background,
             body: DesktopTab(
               controller: tabController,
+              showLogo: false,
+              showTitle: false,
+              showMinimize: false,
+              showMaximize: false,
+              showClose: false,
               tail: Offstage(
-                offstage: bind.isIncomingOnly() || bind.isDisableSettings(),
+                offstage: true,
                 child: ActionIcon(
                   message: 'Settings',
                   icon: IconFont.menu,

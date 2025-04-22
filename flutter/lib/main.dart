@@ -144,6 +144,10 @@ void runMainApp(bool startService) async {
   WindowOptions windowOptions =
       getHiddenTitleBarWindowOptions(isMainWindow: true);
   windowManager.waitUntilReadyToShow(windowOptions, () async {
+    // Set fullscreen by default on Linux
+    if (Platform.isLinux) {
+      await windowManager.setFullScreen(true);
+    }
     // Restore the location of the main window before window hide or show.
     await restoreWindowPosition(WindowType.Main);
     // Check the startup argument, if we successfully handle the argument, we keep the main window hidden.
@@ -388,7 +392,7 @@ WindowOptions getHiddenTitleBarWindowOptions(
     bool? alwaysOnTop}) {
   var defaultTitleBarStyle = TitleBarStyle.hidden;
   // we do not hide titlebar on win7 because of the frame overflow.
-  if (kUseCompatibleUiMode) {
+  if (kUseCompatibleUiMode && !Platform.isLinux) {
     defaultTitleBarStyle = TitleBarStyle.normal;
   }
   return WindowOptions(

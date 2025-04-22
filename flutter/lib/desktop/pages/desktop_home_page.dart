@@ -63,8 +63,13 @@ class _DesktopHomePageState extends State<DesktopHomePage>
         child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildLeftPane(context),
-        if (!isIncomingOnly) const VerticalDivider(width: 1),
+        Visibility(
+          visible: false, // 完全隐藏
+          maintainSize: false, // 不占位
+          maintainState: true, // 可选：是否保持状态（如需要保留输入框内容）
+          child: buildLeftPane(context),
+        ),
+        // if (!isIncomingOnly) const VerticalDivider(width: 1),
         if (!isIncomingOnly) Expanded(child: buildRightPane(context)),
       ],
     ));
@@ -221,7 +226,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                                   ?.color
                                   ?.withOpacity(0.5)),
                         ).marginOnly(top: 5),
-                        buildPopupMenu(context)
+                        const SizedBox.shrink() // 替换为空的Widget
                       ],
                     ),
                   ),

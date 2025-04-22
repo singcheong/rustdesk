@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:desktop_multi_window/desktop_multi_window.dart';
 import 'package:flutter/material.dart';
+import 'package:window_manager/window_manager.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -134,6 +135,9 @@ class _RemotePageState extends State<RemotePage>
     });
     if (!isLinux) {
       WakelockPlus.enable();
+    } else {
+      // Linux下默认最大化窗口
+      windowManager.setFullScreen(true);
     }
 
     _ffi.ffiModel.updateEventListener(sessionId, widget.id);
@@ -359,9 +363,9 @@ class _RemotePageState extends State<RemotePage>
       );
     }
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: Obx(() {
+    return Container(
+      color: Theme.of(context).colorScheme.background,
+      child: Obx(() {
         final imageReady = _ffi.ffiModel.pi.isSet.isTrue &&
             _ffi.ffiModel.waitForFirstImage.isFalse;
         if (imageReady) {
