@@ -35,7 +35,7 @@ class ServerModel with ChangeNotifier {
   bool hideCm = false;
   int _connectStatus = 0; // Rendezvous Server status
   String _verificationMethod = "";
-  String _temporaryPasswordLength = "";
+  String _temporaryPasswordLength = "10";
   String _approveMode = "";
   int _zeroClientLengthCounter = 0;
 
@@ -93,7 +93,7 @@ class ServerModel with ChangeNotifier {
   String get temporaryPasswordLength {
     final lengthIndex = ["6", "8", "10"].indexOf(_temporaryPasswordLength);
     if (lengthIndex < 0) {
-      return "6";
+      return "10";
     }
     return _temporaryPasswordLength;
   }
