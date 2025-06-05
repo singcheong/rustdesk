@@ -549,12 +549,12 @@ async fn run_service(_arguments: Vec<OsString>) -> ResultType<()> {
     let mut session_id = unsafe { get_current_session(share_rdp()) };
     log::info!("session id {}", session_id);
     let mut h_process = launch_server(session_id, true).await.unwrap_or(NULL);
-    
+
     // Start tray process if not running
     if !crate::check_process("--tray", true) {
-        let _ = run_as_user(&["--tray"]);
+        let _ = run_as_user(vec!["--tray"]);
     }
-    
+
     let mut incoming = ipc::new_listener(crate::POSTFIX_SERVICE).await?;
     let mut stored_usid = None;
     loop {
