@@ -293,9 +293,9 @@ jobs:
           name: rustdesk-unsigned-windows-x86_64
           path: ./windows-x86_64/
 
-      - name: Combine unsigned app
-        run: |
-          tar czf rustdesk-${{ env.VERSION }}-unsigned.tar.gz *.dmg windows-x86_64
+      # - name: Combine unsigned app
+      #   run: |
+      #     tar czf rustdesk-${{ env.VERSION }}-unsigned.tar.gz *.dmg windows-x86_64
 
       - name: Publish unsigned app
         uses: softprops/action-gh-release@v1
